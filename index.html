@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Include Telegram Web App script -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Telegram Mini App</h1>
+    <p id="user-info">Loading user info...</p>
+<!-- Add this inside the body, before the buttons -->
+<input type="text" id="user-input" placeholder="Type something..." />
+
+<script>
+    // Handle sending user input data back to the bot
+    document.getElementById('send-data').addEventListener('click', () => {
+        const userInput = document.getElementById('user-input').value;
+        tg.sendData(`User input: ${userInput}`); // Send the user's input to the bot
+    });
+</script>
+
+    <!-- Button to send data back to the bot -->
+    <button id="send-data">Send Data to Bot</button>
+
+    <!-- Button to close the app -->
+    <button id="close-app">Close App</button>
+    
+    <script>
+        // Initialize the Telegram Web App
+        const tg = window.Telegram.WebApp;
+
+        // Display the user's first name in the Mini App
+        document.getElementById('user-info').innerText = `Hello, ${tg.initDataUnsafe.user.first_name}!`;
+
+        // Optionally, expand the Web App to full height
+        tg.expand();
+
+        // Handle sending data back to the bot
+        document.getElementById('send-data').addEventListener('click', () => {
+            tg.sendData('This is some data sent from the Mini App'); // Replace with your actual data
+        });
+
+        // Handle closing the Web App
+        document.getElementById('close-app').addEventListener('click', () => {
+            tg.close();
+        });
+    </script>
+</body>
+</html>
