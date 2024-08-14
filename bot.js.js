@@ -234,6 +234,8 @@ app.use((req, res, next) => {
 });
 
 app.post('/process-data', (req, res) => {
+	console.log("Request received: ", req);
+	
     const data = req.body;
     res.json({ message: 'Data received and processed', data });
 });
