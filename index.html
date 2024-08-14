@@ -22,16 +22,27 @@
 <body>
     <h1>Welcome to My Telegram Mini App</h1>
     <p id="user-info">Loading user info...</p>
-<!-- Add this inside the body, before the buttons -->
-<input type="text" id="user-input" placeholder="Type something..." />
+	<!-- Add this inside the body, before the buttons -->
+	<input type="text" id="user-input" placeholder="Type something..." />
 
-<script>
-    // Handle sending user input data back to the bot
-    document.getElementById('send-data').addEventListener('click', () => {
-        const userInput = document.getElementById('user-input').value;
-        tg.sendData(`User input: ${userInput}`); // Send the user's input to the bot
-    });
-</script>
+	<script>
+	    // Handle sending user input data back to the bot
+	    document.getElementById('send-data').addEventListener('click', () => {
+	        const userInput = document.getElementById('user-input').value;
+			
+			const response = await fetch('http://localhost:49771/process-data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user_input: userInput, user_id: tg.initDataUnsafe.user.id }),
+            });
+
+            const result = await response.json();
+			
+	        tg.sendData(`User input: ${userInput}`); // Send the user's input to the bot
+	    });
+	</script>
 
     <!-- Button to send data back to the bot -->
     <button id="send-data">Send Data to Bot</button>
